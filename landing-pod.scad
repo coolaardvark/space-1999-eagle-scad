@@ -85,8 +85,8 @@ module podBody() {
 }
 
 module footCross() {
-    cube([25, 65, 5], center = true);
-    translate([0, 4, 0]) cube([70, 30, 5], center = true);
+    translate([0, 4.8, 0]) cube([25, 51, 5], center = true);
+    translate([0.5, 4, 0]) cube([42, 30, 5], center = true);
 }
 
 module landingPod() {
@@ -96,20 +96,19 @@ module landingPod() {
     }
 }
 
-module footMould() {
-    difference() {
-        translate([27.5, 30, -32]) footCross();
-        podBody();
-    }
-}
-
 module landingFoot() {
     intersection() {
-        footMould();
-        cube([50, 50, 10]);
+        podBody();
+        translate([27.5, 30, -32]) footCross();
     }
 }
 
-//landingPod();
-//footMould();
-landingFoot();
+module podAndFoot() {
+    union() {
+        landingPod();
+        // Reduce the size of the foot ever so slightly to give us a gap
+        // Don't scale Z since we will do that with the placement of the foot
+        // We translate the foot to, more or less, center it after the scaling
+        translate([0.3, 0.5, -0.5]) scale([0.99, 0.99, 1]) landingFoot();
+    }
+}
