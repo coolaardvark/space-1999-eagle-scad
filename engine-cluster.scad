@@ -1,28 +1,36 @@
-module engine() {
+include<engine-nozzle.scad>
+
+module engineTank() {
     // Main Tank 'endcaps'
-    translate([0, 0, 6.5]) sphere(8);
-    translate([0, 0, -6.5]) sphere(8);
+    translate([0, 0, 6.5]) sphere(d=26);
+    translate([0, 0, -6.5]) sphere(d=26);
     // Main Tank body
-    cylinder(12, 8.5, 8.5, center = true);
+    cylinder(12, d=26, center = true);
+}
+
+module engine() {
+    translate([0, 0, 57]) engineTank();
     // Nozzle 'throat'
-    translate([0, 0, 15]) cylinder(5, 5, 5, center = true);
-    translate([0, 0, 18.5]) cylinder(2, 6, 6, center = true);
+    translate([0, 0, 37]) cylinder(6, d=14, center = true);
+    translate([0, 0, 35]) cylinder(2, d=17, center = true);
     // Nozzle
-    difference() {
-        translate([0, 0, 19.5]) cylinder(18, 6, 10);
-        translate([0, 0, 20]) cylinder(18, 5.5, 9.5);
-    }
+    engineNozzle();
+}
+
+module presureTank() {
+    sphere(9);
+    rotate ([90, 0, 0]) translate([0, 0, -16.5]) cylinder(33, d=2);
 }
 
 // Ideally this framework would be a tube, but I can't (yet!)
 // figure out how to do that, 
 // engine support frame
 module frameshape() {
-    polygon([[16, -4.5], [16, 4.5], [5, 23], [-5, 23], [-16, 4.5], [-16, -4.5], [-5, -23], [5, -23]]);
-    translate([11.9, 0]) circle(6);
-    translate([-11.9, 0]) circle(6);
-    translate([0, 20]) circle(6);
-    translate([0, -20]) circle(6);
+    polygon([[30, -5.5], [30, 5.5], [4.5, 50], [-4.5, 50], [-30, 5.5], [-30, -5.5], [-4.5, -50], [4.5, -50]]);
+    translate([25, 0]) circle(7);
+    translate([-25, 0]) circle(7);
+    translate([0, 44.5]) circle(7);
+    translate([0, -44.5]) circle(7);
 }
 
 module frame() {
@@ -33,15 +41,15 @@ module frame() {
     }
 }
 
-translate([0, 0, 12]) rotate([90, 0, 0]) engine();
-translate([0, 0, -12]) rotate([90, 0, 0]) engine();
-translate([20, 0, 0]) rotate([90, 0, 0]) engine();
-translate([-20, 0, 0]) rotate([90, 0, 0]) engine();
+translate([0, 0, 22.5]) rotate([90, 0, 0]) engine();
+translate([0, 0, -22.5]) rotate([90, 0, 0]) engine();
+translate([42, 0, 0]) rotate([90, 0, 0]) engine();
+translate([-42, 0, 0]) rotate([90, 0, 0]) engine();
 
 // Presure Tanks
-translate([14, 0, 14]) sphere(5.5);
-translate([-14, 0, 14]) sphere(5.5);
-translate([14, 0, -14]) sphere(5.5);
-translate([-14, 0, -14]) sphere(5.5);
+translate([22.5, -57, 23]) presureTank();
+translate([-22.5, -57, 23]) presureTank();
+translate([22.5, -57, -23]) presureTank();
+translate([-22.5, -57, -23]) presureTank();
 
-rotate([90, 90]) translate([0, 0, 13]) frame();
+rotate([90, 90]) translate([0, 0, 38]) frame();
