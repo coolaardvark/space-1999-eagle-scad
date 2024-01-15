@@ -2,8 +2,8 @@ include<engine-nozzle.scad>
 
 module engineTank() {
     // Main Tank 'endcaps'
-    translate([0, 0, 6.5]) sphere(d=26);
-    translate([0, 0, -6.5]) sphere(d=26);
+    translate([0, 0, 6]) sphere(d=26);
+    translate([0, 0, -6]) sphere(d=26);
     // Main Tank body
     cylinder(12, d=26, center = true);
 }
@@ -41,15 +41,17 @@ module frame() {
     }
 }
 
-translate([0, 0, 22.5]) rotate([90, 0, 0]) engine();
-translate([0, 0, -22.5]) rotate([90, 0, 0]) engine();
-translate([42, 0, 0]) rotate([90, 0, 0]) engine();
-translate([-42, 0, 0]) rotate([90, 0, 0]) engine();
+module engineCluster() {
+    translate([0, 0, 22.5]) rotate([90, 0, 0]) engine();
+    translate([0, 0, -22.5]) rotate([90, 0, 0]) engine();
+    translate([42, 0, 0]) rotate([90, 0, 0]) engine();
+    translate([-42, 0, 0]) rotate([90, 0, 0]) engine();
 
-// Presure Tanks
-translate([22.5, -57, 23]) presureTank();
-translate([-22.5, -57, 23]) presureTank();
-translate([22.5, -57, -23]) presureTank();
-translate([-22.5, -57, -23]) presureTank();
+    // Presure Tanks
+    translate([22.5, -57, 23]) presureTank();
+    translate([-22.5, -57, 23]) presureTank();
+    translate([22.5, -57, -23]) presureTank();
+    translate([-22.5, -57, -23]) presureTank();
 
-rotate([90, 90]) translate([0, 0, 38]) frame();
+    rotate([90, 90]) translate([0, 0, 38]) frame();
+}
